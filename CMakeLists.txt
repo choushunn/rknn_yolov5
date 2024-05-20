@@ -80,5 +80,6 @@ install(PROGRAMS ${OpenCV_LIBS} DESTINATION lib)
 install(PROGRAMS RKNNYoloV5/lib/librknnyolov5.so DESTINATION lib)
 
 install(DIRECTORY model DESTINATION .)
+install(DIRECTORY data DESTINATION .)
 # 安装 run.sh 到当前目录
 install(PROGRAMS run.sh DESTINATION .)
