@@ -430,7 +430,7 @@ int YoloV5Detector::run_inference(cv::Mat img)
 		outputs[i].want_float = 0;
 	}
 
-	// 调用npu进行推演
+	// 调用npu进行推理
 	ret = rknn_run(rk_model, NULL);
 
 	// 获取npu的推演输出结果
@@ -465,6 +465,7 @@ int YoloV5Detector::run_inference(cv::Mat img)
 		int y1 = det_result->box.top;
 		// 绘制目标框和标签
 		rectangle(original_image, cv::Point(x1, y1), cv::Point(det_result->box.right, det_result->box.bottom), cv::Scalar(0, 0, 255, 0), 3);
+		// 添加文字
 		putText(original_image, text, cv::Point(x1, y1 + 12), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 255, 255));
 	}
 
@@ -513,8 +514,8 @@ YoloV5Detector::YoloV5Detector(const char* model_name, int core_id)
 		exit(-1);
 	}
 	else {
-		printf("sdk api version: %s\n", sdk_version.api_version);
-		printf("driver version: %s\n", sdk_version.drv_version);
+		printf("rknn sdk api version: %s\n", sdk_version.api_version);
+		printf("rknn driver version: %s\n", sdk_version.drv_version);
 	}
 
 	// 设置 NPU 核心,RK3588 有三个核心

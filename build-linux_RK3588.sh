@@ -1,8 +1,7 @@
 set -e
 
-# TARGET_SOC="rk3588"
 # 交叉编译
-#GCC_COMPILER=/usr/local/arm64/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu
+# GCC_COMPILER=/usr/local/arm64/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu
 
 GCC_COMPILER=aarch64-linux-gnu
 
@@ -19,8 +18,10 @@ if [ ! -d "${BUILD_DIR}" ]; then
 fi
 
 cd ${BUILD_DIR}
+
 cmake ../ -DCMAKE_SYSTEM_NAME=Linux
 make -j8
+
 make install
 cd -
 
