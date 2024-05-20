@@ -19,7 +19,7 @@ if [ ! -d "${BUILD_DIR}" ]; then
 fi
 
 cd ${BUILD_DIR}
-cmake ../.. -DCMAKE_SYSTEM_NAME=Linux
+cmake ../ -DCMAKE_SYSTEM_NAME=Linux
 make -j8
 make install
 cd -

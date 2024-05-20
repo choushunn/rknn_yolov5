@@ -29,8 +29,8 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
-    const char* model_path = argv[1];
-    const char* image_name = argv[2];
+    char* model_path = argv[1];  // 参数二，模型所在路径
+    const char* image_name = argv[2];  // 参数三, 视频/摄像头
 
     cout << "Model name: " << model_path << endl;
 
@@ -52,8 +52,8 @@ int main(int argc, char* argv[]) {
             cerr << "Error: Failed to capture frame" << endl;
             break;
         }
-        inference_engine.run_inference(frame);
-        imshow("Camera FPS", frame);
+        inference_engine.run_inference(frame); 
+        imshow("RKNN Yolo V5", frame);
 
         char key = waitKey(1);
         if (key == 27) // ESC key
