@@ -28,6 +28,7 @@ include_directories(${RGA_PATH}/include)
 
 if(CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
     find_package(OpenCV REQUIRED)
+	include_directories( ${OpenCV_INCLUDE_DIRS})
 else()
     set(OpenCV_PATH ${CMAKE_SOURCE_DIR}/3rdparty/opencv)
     set(OpenCV_LIBS 
@@ -76,9 +77,14 @@ install(TARGETS ${PROJECT_NAME} DESTINATION .)
 
 install(PROGRAMS ${RKNN_RT_LIB} DESTINATION lib)
 install(PROGRAMS ${RGA_LIB} DESTINATION lib)
-install(PROGRAMS ${OpenCV_LIBS} DESTINATION lib)
-install(PROGRAMS RKNNYoloV5/lib/librknnyolov5.so DESTINATION lib)
 
+if(CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
+    # 
+else()
+	install(PROGRAMS ${OpenCV_LIBS} DESTINATION lib)
+endif()
+
+install(PROGRAMS RKNNYoloV5/lib/librknnyolov5.so DESTINATION lib)
 install(DIRECTORY model DESTINATION .)
 install(DIRECTORY data DESTINATION .)
 # 安装 run.sh 到当前目录
