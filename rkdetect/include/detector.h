@@ -1,92 +1,99 @@
-#pragma once
-#include <iostream>
+#ifndef _DETECTOR_H_
+#define _DETECTOR_H_
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <stdint.h>
+#include <vector>
 #include <set>
-// OpenCV
-#include "opencv2/core/core.hpp"
-#include "opencv2/imgcodecs.hpp"
-#include "opencv2/imgproc.hpp"
-// rknn
 #include "rknn_api.h"
-// RGA
-#include "im2d.hpp"
-#include "RgaUtils.h"
-#include "rga.h"
+#include "common.h"
+#include "image_utils.h"
+#include "file_utils.h"
 
+// 定义目标名称的最大尺寸
+#define OBJ_NAME_MAX_SIZE 64
 
-// 定义常量
-// 最大目标名称长度
-#define OBJ_NAME_MAX_SIZE 16
-// 最大目标数量
-#define OBJ_NUMB_MAX_SIZE 64
-// 目标类别数量
-#define OBJ_CLASS_NUM     4
-// NMS 阈值
-#define NMS_THRESH        0.45
-// BOX 阈值
-#define BOX_THRESH        0.25
-// 单个目标属性大小
-#define PROP_BOX_SIZE     (5+OBJ_CLASS_NUM)
+// 定义目标数量的最大尺寸 
+#define OBJ_NUMB_MAX_SIZE 128
 
-#define LABEL_NALE_TXT_PATH "./model/labels_list.txt"
+// 定义目标类别的数量
+#define OBJ_CLASS_NUM 4
 
-static char* labels[OBJ_CLASS_NUM];
+// 定义非极大值抑制(NMS)的阈值
+#define NMS_THRESH 0.45
 
-const int anchor0[6] = { 10, 13, 16, 30, 33, 23 };
-const int anchor1[6] = { 30, 61, 62, 45, 59, 119 };
-const int anchor2[6] = { 116, 90, 156, 198, 373, 326 };
+// 定义边框置信度的阈值
+#define BOX_THRESH 0.45
 
-inline static int clamp(float val, int min, int max) {
-    return val > min ? (val < max ? val : max) : min;
-}
+// 定义属性框的大小
+#define PROP_BOX_SIZE (5 + OBJ_CLASS_NUM)
 
-// 定义矩形框结构体
-typedef struct _BOX_RECT {
-    int left;    // 左上角 x 坐标
-    int right;   // 右下角 x 坐标
-    int top;     // 左上角 y 坐标
-    int bottom;  // 右下角 y 坐标
-} BOX_RECT;
+// 目标检测操作的结果
+typedef struct {
+	// 检测到的目标的边界框
+	image_rect_t box;
+	// 检测的置信度得分
+	float prop;
+	// 检测到的目标的类别ID
+	int cls_id;
+} object_detect_result;
 
-// 定义检测结果结构体
-typedef struct __detect_result_t {
-    char name[OBJ_NAME_MAX_SIZE];  // 目标名称
-    BOX_RECT box;                   // 目标框
-    float prop;                     // 目标置信度
-} detect_result_t;
+// 目标检测结果列表
+typedef struct {
+	// 检测结果列表的ID
+	int id;
+	// 检测到的目标数量
+	int count;
+	// 目标检测结果数组
+	object_detect_result results[OBJ_NUMB_MAX_SIZE];
+} object_detect_result_list;
 
-// 定义检测结果组结构体
-typedef struct _detect_result_group_t {
-    int id;                         // 组标识
-    int count;                      // 目标数量
-    detect_result_t results[OBJ_NUMB_MAX_SIZE];  // 目标检测结果数组
-} detect_result_group_t;
+// RKNN 上下文
+typedef struct {
+	// RKNN上下文
+	rknn_context rknn_ctx;
+	// 输入和输出张量的数量
+	rknn_input_output_num io_num;
+	// 输入张量的属性
+	rknn_tensor_attr* input_attrs;
+	// 输出张量的属性
+	rknn_tensor_attr* output_attrs;
+	// 模型的通道数
+	int model_channel;
+	// 模型的宽度
+	int model_width;
+	// 模型的高度
+	int model_height;
+	// 标识模型是否量化
+	bool is_quant;
+} rknn_app_context_t;
 
-class YoloV5Detector {
-private:
-    rknn_context rk_model;          // 指向 RKNN 模型的上下文指针
-    unsigned char* model_data;      // 指向模型数据的指针
-    rknn_sdk_version sdk_version;   // RKNN SDK 版本号
-    rknn_input_output_num io_num;   // 输入输出数量
-    rknn_tensor_attr* input_attrs;  // 输入张量属性数组
-    rknn_tensor_attr* output_attrs; // 输出张量属性数组
-    rknn_input inputs[1];           // 输入数据结构数组
-    int ret;                // 返回值
-    int channel_count = 3;          // 输入图像通道数
-    int dst_width = 0;            // 输入图像宽度
-    int dst_height = 0;           // 输入图像高度
-public:
-    cv::Mat original_image;         // 原始图像
-
-    int pre_process();           // 预处理
-    // 后处理
-    int post_process(int8_t* input0, int8_t* input1, int8_t* input2, int model_in_h, int model_in_w,
-        float conf_threshold, float nms_threshold, float scale_w, float scale_h,
-        std::vector<int32_t>& qnt_zps, std::vector<float>& qnt_scales,
-        detect_result_group_t* group);
-    // 成员函数：运行推理
-    int run_inference(cv::Mat img);
-    // 构造函数：初始化 YOLOv5 模型
-    YoloV5Detector(const char* model_name, int core_id);
-    // 析构函数：释放资源
-    ~YoloV5Detector();
+// 存储类别标签的数组
+static char* labels[OBJ_CLASS_NUM] = {
+	"1",
+	"2",
+	"3",
+	"4"
 };
+
+// 锚框的尺寸和比例
+const int anchor[3][6] = {
+	{10, 13, 16, 30, 33, 23},
+	{30, 61, 62, 45, 59, 119},
+	{116, 90, 156, 198, 373, 326}
+};
+
+class Detector {
+private:
+	rknn_app_context_t* app_ctx;
+	int post_process(void* outputs, letterbox_t* letter_box, float conf_threshold, float nms_threshold, object_detect_result_list* od_results);
+public:
+	Detector(const char* model_path);
+	~Detector();
+	int run(image_buffer_t* img, object_detect_result_list* od_results);	
+};
+
+#endif //_DETECTOR_H_
