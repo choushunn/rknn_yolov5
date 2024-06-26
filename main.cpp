@@ -5,8 +5,8 @@
 
 #include <opencv2/opencv.hpp>
 
-#include "yolov5.h"
-#include "common.h"
+#include "detector.h"
+
 
 
 int main(int argc, char** argv)
@@ -21,19 +21,33 @@ int main(int argc, char** argv)
 	const char* image_path = argv[2];
 
 	// 模型初始化
-	int ret;
-	Detector detector(model_path);
 	
+	Detector detector(model_path);	
+
+	cv::VideoCapture cap;
+	//cap.open("/dev/video21"); // 使用默认的摄像头
+	//if (!cap.isOpened()) {
+	//	printf("无法打开摄像头");
+	//	return -1;
+	//}
+	cap.open(image_path);
+	if (!cap.isOpened()) {
+		printf("Failed to open the video file");
+		return -1;
+	}
+
+	auto start_time = std::chrono::high_resolution_clock::now();
+	int frame_count = 0;
+
+	cv::Mat source_img;
 	// 读取图像
 	image_buffer_t src_image;
 	memset(&src_image, 0, sizeof(image_buffer_t));
-	cv::Mat source_img;
-	cv::VideoCapture cap("/dev/video21"); // 使用默认的摄像头
-	if (!cap.isOpened()) {
-		printf("无法打开摄像头");
-		return -1;
-	}
 	while (true) {
+		frame_count++;
+		auto current_time = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double> elapsed = current_time - start_time;
+		double fps = frame_count / elapsed.count();
 		// 读取一帧图像
 		cap >> source_img;
 		if (source_img.empty())
@@ -44,7 +58,6 @@ int main(int argc, char** argv)
 		cv::Mat img;
 		cv::cvtColor(source_img, img, cv::COLOR_BGR2RGB);
 		cv::resize(img, img, cv::Size(640, 640), 0, 0, cv::INTER_LINEAR);
-
 		 
 		src_image.width = img.cols;
 		src_image.height = img.rows;
@@ -53,9 +66,8 @@ int main(int argc, char** argv)
 		src_image.virt_addr = img.data;
 
 		object_detect_result_list od_results;
-		
-
-		ret = detector.run(&src_image, &od_results);
+		// 执行检测
+		int ret = detector.run(&src_image, &od_results);
 	
 		
 		if (ret != 0)
@@ -86,6 +98,9 @@ int main(int argc, char** argv)
 			//draw_rectangle(&src_image, x1, y1, x2 - x1, y2 - y1, COLOR_BLUE, 3);			
 			//draw_text(&src_image, text, x1, y1 - 20, COLOR_YELLOW, 10);
 		}
+		// 显示帧率和线程 ID
+		std::string text1 = "FPS: " + std::to_string(fps);
+		cv::putText(img, text1, cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 0, 255), 2);
 		cv::cvtColor(img, img, cv::COLOR_BGR2RGB);
 		// 显示结果
 		cv::imshow("RKNN", img);
