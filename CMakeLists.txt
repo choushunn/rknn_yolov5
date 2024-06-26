@@ -10,7 +10,7 @@ find_package(OpenCV REQUIRED)
 
 include_directories(${OpenCV_INCLUDE_DIRS}) 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/utils) 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/rknpu2/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/librknn_api/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/librga/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/jpeg_turbo/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/stb_image/include)
