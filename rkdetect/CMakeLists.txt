@@ -17,6 +17,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/stb_image/include)
 
 add_library(${PROJECT_NAME}	SHARED
 	src/detector.cpp
+    "include/detector.h"
 	../../utils/file_utils.c 
     ../../utils/image_drawing.c
     ../../utils/image_utils.c
