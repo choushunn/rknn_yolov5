@@ -5,6 +5,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "-pthread")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--allow-shlib-undefined")
 
+
+set(OpenCV_DIR "3rdparty/opencv345/share/OpenCV")
 find_package(OpenCV REQUIRED)
 
 include_directories(${OpenCV_INCLUDE_DIRS}) 

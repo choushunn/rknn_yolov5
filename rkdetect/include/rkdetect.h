@@ -1,11 +1,12 @@
-#ifndef _RKDETECT_H_
-#define _RKDETECT_H_
+#ifndef DETECTORAPI_H
+#define DETECTORAPI_H
+
 #include "detector.h"
 
-// 初始化
+class DetectorAPI {
+public:
+    static int run(image_buffer_t* img, object_detect_result_list* od_results);
+    static void release();
+};
 
-// 检测
-
-// 定位中心坐标
-
-#endif //_DETECTOR_H_
+#endif // DETECTORAPI_H

@@ -14,13 +14,17 @@ include_directories(${RGA_PATH}/include)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/jpeg_turbo/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/stb_image/include)
-
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_library(${PROJECT_NAME}	SHARED
 	src/detector.cpp
     "include/detector.h"
+    "src/rkdetect.cpp"
 	../../utils/file_utils.c 
     ../../utils/image_drawing.c
     ../../utils/image_utils.c
+    ../../utils/file_utils.h 
+    ../../utils/image_drawing.h
+    ../../utils/image_utils.h
 )
 
 target_link_libraries(${PROJECT_NAME}
