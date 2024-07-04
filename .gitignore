@@ -2,3 +2,6 @@
 /out
 /3rdparty/opencv
 /data
+/build
+rknn_demo
+/install
