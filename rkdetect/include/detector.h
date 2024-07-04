@@ -20,7 +20,7 @@
 #define OBJ_NUMB_MAX_SIZE 128
 
 // 定义目标类别的数量
-#define OBJ_CLASS_NUM 2
+#define OBJ_CLASS_NUM 4
 
 // 定义非极大值抑制(NMS)的阈值
 #define NMS_THRESH 0.45
@@ -74,7 +74,9 @@ typedef struct {
 // 存储类别标签的数组
 static char* labels[OBJ_CLASS_NUM] = {
 	"1",
-	"2"
+	"2",
+	"3",
+	"4"
 };
 
 // 锚框的尺寸和比例

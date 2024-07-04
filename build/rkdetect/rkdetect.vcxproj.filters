@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\MyGithub\rknn_detect\rkdetect\src\detector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\MyGithub\rknn_detect\rkdetect\src\rkdetect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\MyGithub\rknn_detect\rkdetect\src\file_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\MyGithub\rknn_detect\rkdetect\src\image_drawing.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\MyGithub\rknn_detect\rkdetect\src\image_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\MyGithub\rknn_detect\rkdetect\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{17EE0F14-2846-3840-94FF-41233C78A3BB}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

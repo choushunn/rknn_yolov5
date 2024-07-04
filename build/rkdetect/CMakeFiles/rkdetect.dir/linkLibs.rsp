@@ -1,0 +1,1 @@
+ D:/MyGithub/rknn_detect/rkdetect/../3rdparty/librknn_api/lib/librknnrt.so D:/MyGithub/rknn_detect/rkdetect/../3rdparty/librga/lib/librga.so -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 
