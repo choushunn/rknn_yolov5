@@ -1,7 +1,0 @@
-D:/MyGithub/rknn_detect/build/CMakeFiles/rknn_demo.dir
-D:/MyGithub/rknn_detect/build/CMakeFiles/INSTALL.dir
-D:/MyGithub/rknn_detect/build/CMakeFiles/ALL_BUILD.dir
-D:/MyGithub/rknn_detect/build/CMakeFiles/ZERO_CHECK.dir
-D:/MyGithub/rknn_detect/build/rkdetect/CMakeFiles/rkdetect.dir
-D:/MyGithub/rknn_detect/build/rkdetect/CMakeFiles/INSTALL.dir
-D:/MyGithub/rknn_detect/build/rkdetect/CMakeFiles/ALL_BUILD.dir
