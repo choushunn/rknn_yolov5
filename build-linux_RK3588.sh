@@ -1,7 +1,7 @@
 set -e
 
 # 交叉编译
- #GCC_COMPILER=/usr/local/arm64/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu
+#GCC_COMPILER=/usr/local/arm64/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu
 
 #GCC_COMPILER=/opt/toolchain/aarch64-rockchip1031-linux-gnu/bin/aarch64-none-linux-gnu
 
@@ -10,9 +10,8 @@ set -e
 
 ROOT_PWD=$( cd "$( dirname $0 )" && cd -P "$( dirname "$SOURCE" )" && pwd )
 
-# build
+# 构建目录
 BUILD_DIR=${ROOT_PWD}/build
-
 if [ ! -d "${BUILD_DIR}" ]; then
   mkdir -p ${BUILD_DIR}
 fi
@@ -20,15 +19,7 @@ fi
 cd ${BUILD_DIR}
 
 cmake ../ -DCMAKE_SYSTEM_NAME=Linux
-make -j8
+make -j${nproc}
 
 make install
 cd -
-
-# relu版本
-# cd install/rknn_yolov5_demo_Linux/ && ./rknn_yolov5_demo ./model/RK3588/yolov5s-640-640.rknn ../../720p60hz.mp4
-# silu版本
-# cd install/rknn_yolov5_demo_Linux/ && ./rknn_yolov5_demo ./model/RK3588/yolov5s.rknn ../../720p60hz.mp4
-# 使用摄像头
-# cd install/rknn_yolov5_demo_Linux/ && ./rknn_yolov5_demo ./model/RK3588/yolov5s-640-640.rknn 0
-

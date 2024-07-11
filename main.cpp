@@ -5,12 +5,6 @@
 #include <algorithm>
 #include <chrono>
 #include <opencv2/opencv.hpp>
-// #include "rk_comm_vpss.h"
-// #include "rk_comm_venc.h"
-// #include "rk_mpi_vpss.h"
-// #include "rk_mpi_sys.h"
-// #include "rk_mpi.h"
-// #include "rk_type.h"
 //  引入头文件
 #include "rkdetect.h"
 
@@ -24,38 +18,6 @@ int main(int argc, char **argv)
 
 	const char *model_path = argv[1];
 	const char *image_path = argv[2];
-	// RK_S32 ret = RK_MPI_SYS_Init();
-	// if (ret == 0) {
-	//	printf("RK_MPI_SYS_Init success! ret=%d\n", ret);
-	// }
-	//  创建 MPP 实例
-	// #MppCtx ctx;
-	// #MppApi* mpi;
-	// #mpp_create(&ctx, &mpi);
-	//  创建 VPSS 处理通道
-	// #MppPollType timeout = MPP_POLL_BLOCK;
-	// MppbufPool buf_pool = NULL;
-	// MppPort input_port = NULL;
-	// MppPort output_port = NULL;
-	// mpp_create_vpp_task(ctx, &input_port, &output_port, &buf_pool);
-	// RK_MPI_VPSS_CreateGrp();
-	// h264_frame
-	// #VENC_STREAM_S stFrame;
-	// #stFrame.pstPack = (VENC_PACK_S*)malloc(sizeof(VENC_PACK_S));
-	// #VIDEO_FRAME_INFO_S h264_frame;
-	// #VIDEO_FRAME_INFO_S stVpssFrame;
-	// #VPSS_GRP_ATTR_S ss;
-	////ss.stFrameRate = 2;
-	// #ss.u32MaxH = 1024;
-	// #ss.u32MaxW = 64;
-	// #ss.enCompressMode = COMPRESS_AFBC_16x16;
-	// #RK_MPI_VPSS_CreateGrp(0, &ss);
-	// #RK_MPI_VPSS_StartGrp(0);
-	////ss.enPixelFormat = PIXEL_FORMAT_YUV_SEMIPLANAR_420;
-
-	// #VPSS_CHN VpssChn[VPSS_MAX_CHN_NUM] = { VPSS_CHN0, VPSS_CHN1, VPSS_CHN2, VPSS_CHN3 };
-
-	// RK_MPI_VPSS_GetChnFrame(5,0,&h264_frame);
 	 cv::VideoCapture cap;
 	 cap.open(image_path);
 	 if (!cap.isOpened()) {

@@ -1,35 +1,32 @@
-project(rkdetect)
-project(${PROJECT_NAME} VERSION 1.0.1)
-set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty)
+project(rkdetect VERSION 1.0.1)
 
-set(RKNN_API_PATH ${THIRD_PARTY_DIR}/librknn_api)
-set(RGA_PATH ${THIRD_PARTY_DIR}/librga)
-set(JPEG_TURBO_INCLUDE_DIR ${THIRD_PARTY_DIR}/jpeg_turbo/include)
-set(STB_IMAGE_INCLUDE_DIR ${THIRD_PARTY_DIR}/stb_image/include)
-
-set(RKNN_RT_LIB ${RKNN_API_PATH}/lib/librknnrt.so)
-set(RGA_LIB ${RGA_PATH}/lib/librga.so)
+set(THIRD_PARTY_DIR ${CMAKE_SOURCE_DIR}/3rdparty)
 
 add_library(${PROJECT_NAME}	SHARED
+	src/file_utils.c 
+    src/image_utils.c
 	src/detector.cpp
     src/rkdetect.cpp
-	src/file_utils.c 
-    src/image_drawing.c 
-    src/image_utils.c
 )
 
-#include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/include") 
+set(RKNN_INCLUDE_DIR ${THIRD_PARTY_DIR}/librknn_api/include)
+set(RGA_INCLUDE_DIR ${THIRD_PARTY_DIR}/librga/include)
+set(JPEG_TURBO_INCLUDE_DIR ${THIRD_PARTY_DIR}/jpeg_turbo/include)
+set(STB_IMAGE_INCLUDE_DIR ${THIRD_PARTY_DIR}/stb_image/include)
+set(PROJECT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${RKNN_API_PATH}/include
-    ${RGA_PATH}/include
+	${PROJECT_INCLUDE_DIR}
+    ${RKNN_INCLUDE_DIR}
+    ${RGA_INCLUDE_DIR}
     ${JPEG_TURBO_INCLUDE_DIR}
     ${STB_IMAGE_INCLUDE_DIR}
 )
 
-message(${RKNN_RT_LIB})
-target_link_libraries(${PROJECT_NAME}
+set(RKNN_RT_LIB ${THIRD_PARTY_DIR}/librknn_api/lib/librknnrt.so)
+set(RGA_LIB ${THIRD_PARTY_DIR}/librga/lib/librga.so)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
   ${RKNN_RT_LIB}
   ${RGA_LIB}
 )
