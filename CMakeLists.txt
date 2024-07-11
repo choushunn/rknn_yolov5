@@ -10,9 +10,15 @@ set(OpenCV_DIR "${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/opencv410/lib/cmake/opencv4
 find_package(OpenCV REQUIRED)
 
 
-# 添加子项目
+############################################################
+# Add sub directories
+############################################################
 add_subdirectory(rkdetect)
 
+
+############################################################
+# Create an executable
+############################################################
 add_executable(${PROJECT_NAME} 
 			   main.cpp
                )
@@ -22,17 +28,20 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     rkdetect
     )
 
-
+############################################################
+# Install
+############################################################
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install)
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 # install target and libraries
-install(TARGETS ${PROJECT_NAME} DESTINATION .)
+install(TARGETS ${PROJECT_NAME} 
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib)
 
-#install(PROGRAMS ${RKNN_RT_LIB} DESTINATION lib)
-#install(PROGRAMS ${RGA_LIB} DESTINATION lib)
 #install(PROGRAMS ${OpenCV_LIBS} DESTINATION lib)
 install(PROGRAMS rkdetect/lib/librkdetect.so DESTINATION lib)
-install(DIRECTORY model DESTINATION .)
-install(DIRECTORY data DESTINATION .)
 # 安装 run.sh 到当前目录
 install(PROGRAMS run.sh DESTINATION .)
+install(DIRECTORY model DESTINATION .)
+install(DIRECTORY data DESTINATION .)
